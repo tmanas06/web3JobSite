@@ -1,25 +1,32 @@
 import { useEffect, useRef } from 'react'
 import QRCode from 'qrcode'
 
-// TypeScript does not allow augmenting untyped modules directly.
-// If you need types, declare them locally:
-declare module 'qrcode' {
-	export function toCanvas(
-		canvas: HTMLCanvasElement,
-		text: string,
-		options?: {
-			width?: number
-			margin?: number
-			color?: {
-				dark?: string
-				light?: string
-			}
-		}
-	): Promise<void>
-}
-
 export function QRCodeCard({ text }: { text: string }) {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null)
+	
+	// Safe clipboard copy function
+	const copyToClipboard = async (text: string) => {
+		try {
+			if (navigator.clipboard && window.isSecureContext) {
+				await navigator.clipboard.writeText(text);
+			} else {
+				// Fallback for older browsers or non-secure contexts
+				const textArea = document.createElement('textarea');
+				textArea.value = text;
+				textArea.style.position = 'fixed';
+				textArea.style.left = '-999999px';
+				textArea.style.top = '-999999px';
+				document.body.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+				document.execCommand('copy');
+				textArea.remove();
+			}
+		} catch (err) {
+			console.error('Failed to copy text: ', err);
+		}
+	};
+
 	useEffect(() => {
 		if (!canvasRef.current) return
 		QRCode.toCanvas(canvasRef.current, text, { width: 200, margin: 1, color: { light: '#ffffff', dark: '#000000' } })
@@ -34,7 +41,7 @@ export function QRCodeCard({ text }: { text: string }) {
 					{text}
 				</div>
 				<button 
-					onClick={() => navigator.clipboard.writeText(text)}
+					onClick={() => copyToClipboard(text)}
 					className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-xs font-medium transition-colors duration-200"
 				>
 					Copy Link

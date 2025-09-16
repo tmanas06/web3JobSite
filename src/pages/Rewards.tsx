@@ -9,7 +9,7 @@ export default function RewardsPage() {
     const staked = useAppStore(s => s.staked)
     const [amount, setAmount] = useState('')
 
-    const accrued = useMemo(() => accrueRewards(), [staked])
+    const accrued = useMemo(() => accrueRewards(), [accrueRewards])
 
     return (
         <div className="w-full">
