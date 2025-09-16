@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Scan2Share",
+  title: "Web3 JDApp",
   description: "Share events and earn rewards",
 };
 
