@@ -4,7 +4,7 @@ import { useAppStore } from "../../../store";
 import { QRCodeCard } from "../../../components/QRCodeCard";
 
 export default function CreateEventPage() {
-  const { createEvent, events, purgeExpiredEvents, deleteEvent, deletePastEvent, pastEvents } = useAppStore();
+  const { createEvent, events, purgeExpiredEvents, deletePastEvent, pastEvents } = useAppStore();
   const [form, setForm] = useState({ title: "", description: "", start: "", end: "", location: "", hashtags: "" });
   const [creating, setCreating] = useState(false);
 

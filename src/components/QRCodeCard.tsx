@@ -1,23 +1,6 @@
 import { useEffect, useRef } from 'react'
 import QRCode from 'qrcode'
 
-// TypeScript does not allow augmenting untyped modules directly.
-// If you need types, declare them locally:
-declare module 'qrcode' {
-	export function toCanvas(
-		canvas: HTMLCanvasElement,
-		text: string,
-		options?: {
-			width?: number
-			margin?: number
-			color?: {
-				dark?: string
-				light?: string
-			}
-		}
-	): Promise<void>
-}
-
 export function QRCodeCard({ text }: { text: string }) {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null)
 	useEffect(() => {

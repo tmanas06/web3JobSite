@@ -32,7 +32,7 @@ export default function SharePage() {
 
   if (!eventItem) return <div className="text-neutral-400">Invalid share link.</div>;
   const now = Date.now();
-  const expired = (eventItem as any).endMs && (eventItem as any).endMs < now;
+  const expired = eventItem.endMs && eventItem.endMs < now;
   if (expired) {
     return (
       <div className="max-w-xl p-6 rounded-lg border border-neutral-800 bg-neutral-900/40">
@@ -91,7 +91,7 @@ export default function SharePage() {
                 <select 
                   className="flex-1 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200" 
                   value={platform} 
-                  onChange={e => setPlatform(e.target.value as any)}
+                  onChange={e => setPlatform(e.target.value as 'twitter' | 'linkedin')}
                 >
                   <option value="twitter">Twitter/X</option>
                   <option value="linkedin">LinkedIn</option>

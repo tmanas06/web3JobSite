@@ -1,6 +1,5 @@
 
 "use client";
-import Link from 'next/link';
 import { useAppStore } from '../../store';
 
 export default function MyEvents() {
@@ -21,7 +20,7 @@ export default function MyEvents() {
               </svg>
             </div>
             <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No upcoming events</h4>
-            <p className="text-gray-600 dark:text-gray-300">You don't have any upcoming events scheduled</p>
+            <p className="text-gray-600 dark:text-gray-300">You don&apos;t have any upcoming events scheduled</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -81,7 +80,7 @@ export default function MyEvents() {
               </svg>
             </div>
             <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No past events</h4>
-            <p className="text-gray-600 dark:text-gray-300">You don't have any past events</p>
+            <p className="text-gray-600 dark:text-gray-300">You don&apos;t have any past events</p>
           </div>
         ) : (
           <div className="space-y-4">
