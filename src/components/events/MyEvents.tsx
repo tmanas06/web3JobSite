@@ -1,132 +1,129 @@
-import Link from 'next/link';
 
-const myEvents = [
-  {
-    id: 1,
-    title: 'Web3 Hackathon 2023',
-    date: '2023-11-15',
-    time: '09:00 AM',
-    location: 'Blockchain Center, New York',
-    status: 'registered',
-    role: 'Participant',
-    rsvpDate: '2023-10-20',
-    ticketType: 'Early Bird',
-    eventLink: '/events/1'
-  },
-  {
-    id: 2,
-    title: 'DeFi Deep Dive',
-    date: '2023-11-20',
-    time: '02:00 PM',
-    location: 'Crypto Hub, San Francisco',
-    status: 'registered',
-    role: 'Speaker',
-    rsvpDate: '2023-10-25',
-    ticketType: 'VIP Pass',
-    eventLink: '/events/2'
-  },
-  {
-    id: 3,
-    title: 'NFT Creators Meetup',
-    date: '2023-12-05',
-    time: '06:30 PM',
-    location: 'Art Gallery, Miami',
-    status: 'saved',
-    role: 'Attendee',
-    rsvpDate: '',
-    ticketType: 'Free',
-    eventLink: '/events/3'
-  },
-  {
-    id: 4,
-    title: 'DAO Governance Workshop',
-    date: '2023-12-10',
-    time: '11:00 AM',
-    location: 'Online',
-    status: 'past',
-    role: 'Attendee',
-    rsvpDate: '2023-11-15',
-    ticketType: 'Standard',
-    eventLink: '/events/4'
-  }
-];
+"use client";
+import Link from 'next/link';
+import { useAppStore } from '../../store';
 
 export default function MyEvents() {
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">My Events</h2>
-        <div className="flex space-x-2">
-          <button className="px-3 py-1.5 text-sm font-medium rounded-md bg-indigo-100 text-indigo-700">
-            Upcoming
-          </button>
-          <button className="px-3 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
-            Past
-          </button>
-          <button className="px-3 py-1.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
-            Saved
-          </button>
-        </div>
-      </div>
+  const events = useAppStore(s => s.events);
+  const pastEvents = useAppStore(s => s.pastEvents);
+  const deletePastEvent = useAppStore(s => s.deletePastEvent);
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-md">
-        <ul className="divide-y divide-gray-200">
-          {myEvents.map((event) => (
-            <li key={event.id} className="hover:bg-gray-50">
-              <Link href={event.eventLink} className="block hover:bg-gray-50">
-                <div className="px-4 py-4 sm:px-6">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-indigo-600 truncate">{event.title}</p>
-                    <div className="ml-2 flex-shrink-0 flex">
-                      <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                        ${event.status === 'registered' ? 'bg-green-100 text-green-800' : 
-                          event.status === 'saved' ? 'bg-blue-100 text-blue-800' : 
-                          'bg-gray-100 text-gray-800'}">
-                        {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
-                      </p>
-                    </div>
+  return (
+    <div className="space-y-8">
+      {/* Upcoming Events */}
+      <div>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Upcoming Events</h3>
+        {events.length === 0 ? (
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No upcoming events</h4>
+            <p className="text-gray-600 dark:text-gray-300">You don't have any upcoming events scheduled</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {events.map(event => (
+              <div key={event.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl transition-shadow duration-200">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{event.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">{event.description}</p>
                   </div>
-                  <div className="mt-2 sm:flex sm:justify-between">
-                    <div className="sm:flex">
-                      <p className="flex items-center text-sm text-gray-500">
-                        <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                        </svg>
-                        {new Date(event.date).toLocaleDateString('en-US', {
-                          weekday: 'short',
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                        {' '}{event.time}
-                      </p>
-                      <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                        <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                        </svg>
-                        {event.location}
-                      </p>
-                    </div>
-                    <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                      <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
+                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm font-medium rounded-full">
+                    Upcoming
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                  <div className="flex items-center text-gray-600 dark:text-gray-300">
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {new Date(event.startMs).toLocaleString()} – {new Date(event.endMs).toLocaleString()}
+                  </div>
+                  {event.location && (
+                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      {event.role}
-                    </div>
-                  </div>
-                  {event.rsvpDate && (
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        RSVP'd on {new Date(event.rsvpDate).toLocaleDateString()}
-                        {event.ticketType && ` • ${event.ticketType}`}
-                      </p>
+                      {event.location}
                     </div>
                   )}
                 </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                {event.hashtags.length > 0 && (
+                  <div className="mt-4">
+                    <div className="flex flex-wrap gap-2">
+                      {event.hashtags.map((tag, index) => (
+                        <span key={index} className="px-2 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 text-xs rounded-md">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Past Events */}
+      <div>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Past Events</h3>
+        {pastEvents.length === 0 ? (
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No past events</h4>
+            <p className="text-gray-600 dark:text-gray-300">You don't have any past events</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {pastEvents.map(event => (
+              <div key={event.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{event.title}</h4>
+                      <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium rounded-full">
+                        Ended
+                      </span>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">{event.description}</p>
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      Ended {new Date(event.endMs).toLocaleString()}
+                      {event.location && (
+                        <>
+                          <span className="mx-2">•</span>
+                          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          {event.location}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => deletePastEvent(event.id)}
+                    className="px-4 py-2 bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800 text-red-700 dark:text-red-300 rounded-lg text-sm font-medium transition-colors duration-200"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
