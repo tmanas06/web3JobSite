@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Web3 JDApp",
-  description: "Share events and earn rewards",
+  description: "Web3 JDApp & Event Platform",
 };
 
 export default function RootLayout({
