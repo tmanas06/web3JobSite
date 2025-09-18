@@ -1,0 +1,48 @@
+{
+  "networks": {
+    "hardhat": {
+      "chainId": 31337,
+      "name": "Hardhat Local",
+      "rpcUrl": "http://127.0.0.1:8545"
+    },
+    "yellowTestnet": {
+      "chainId": 1234,
+      "name": "Yellow Network Testnet",
+      "rpcUrl": "https://testnet-rpc.yellownetwork.org",
+      "explorerUrl": "https://testnet-explorer.yellownetwork.org"
+    },
+    "yellowMainnet": {
+      "chainId": 5678,
+      "name": "Yellow Network Mainnet",
+      "rpcUrl": "https://rpc.yellownetwork.org",
+      "explorerUrl": "https://explorer.yellownetwork.org"
+    }
+  },
+  "contracts": {
+    "YellowJobToken": {
+      "name": "Yellow Job Token",
+      "symbol": "YJT",
+      "decimals": 18,
+      "initialSupply": "10000000000000000000000000",
+      "maxSupply": "100000000000000000000000000"
+    },
+    "Web3JobPlatform": {
+      "minStakeAmount": "1000000000000000000000",
+      "maxStakeAmount": "100000000000000000000000",
+      "stakeDuration": "2592000",
+      "platformFeePercentage": 5
+    },
+    "FraudDetection": {
+      "maxApplicationsPerDay": 10,
+      "maxJobsPerDay": 5,
+      "minReputationForPosting": 50,
+      "fraudPenaltyPercentage": 25
+    }
+  },
+  "frontend": {
+    "appName": "Web3Job Network",
+    "description": "Decentralized Job Platform on Yellow Network",
+    "url": "https://web3jobs.network",
+    "version": "1.0.0"
+  }
+}

@@ -1,72 +1,328 @@
+import { 
+  CodeBracketIcon, 
+  MapPinIcon, 
+  CurrencyDollarIcon,
+  ClockIcon,
+  StarIcon,
+  ArrowRightIcon,
+  SparklesIcon,
+  BuildingOfficeIcon,
+  BriefcaseIcon,
+  FunnelIcon,
+  MagnifyingGlassIcon
+} from '@heroicons/react/24/outline';
+
 export default function DevelopersPage() {
   const jobs = [
     {
       id: 1,
-      title: 'Senior Frontend Developer',
-      company: 'TechCorp',
+      title: 'Senior Solidity Developer',
+      company: 'Ethereum Foundation',
+      logo: '🟣',
       location: 'Remote',
       type: 'Full-time',
-      salary: '$120,000 - $150,000',
-      posted: '2 days ago'
+      salary: '$150,000 - $200,000',
+      posted: '2 days ago',
+      description: 'Build cutting-edge smart contracts and DeFi protocols on Ethereum',
+      tags: ['Solidity', 'DeFi', 'Smart Contracts', 'Web3'],
+      experience: '5+ years',
+      applicants: 45,
+      featured: true
     },
     {
       id: 2,
-      title: 'Backend Engineer',
-      company: 'DevSolutions',
+      title: 'Frontend Engineer - React/Web3',
+      company: 'Uniswap Labs',
+      logo: '🦄',
       location: 'New York, NY',
       type: 'Full-time',
-      salary: '$130,000 - $160,000',
-      posted: '1 week ago'
+      salary: '$140,000 - $180,000',
+      posted: '1 week ago',
+      description: 'Develop the next generation of decentralized trading interfaces',
+      tags: ['React', 'TypeScript', 'Web3', 'DeFi'],
+      experience: '3+ years',
+      applicants: 32,
+      featured: true
     },
     {
       id: 3,
-      title: 'Full Stack Developer',
-      company: 'WebMasters',
-      location: 'Austin, TX',
+      title: 'Blockchain Infrastructure Engineer',
+      company: 'Polygon',
+      logo: '🔷',
+      location: 'Global Remote',
+      type: 'Full-time',
+      salary: '$160,000 - $220,000',
+      posted: '3 days ago',
+      description: 'Scale Ethereum with Layer 2 solutions and sidechain technology',
+      tags: ['Go', 'Blockchain', 'Infrastructure', 'Layer 2'],
+      experience: '4+ years',
+      applicants: 28,
+      featured: false
+    },
+    {
+      id: 4,
+      title: 'Smart Contract Auditor',
+      company: 'Chainlink Labs',
+      logo: '🔗',
+      location: 'San Francisco, CA',
       type: 'Contract',
-      salary: '$70 - $90/hr',
-      posted: '3 days ago'
+      salary: '$100 - $150/hr',
+      posted: '5 days ago',
+      description: 'Audit smart contracts for security vulnerabilities and best practices',
+      tags: ['Security', 'Solidity', 'Auditing', 'DeFi'],
+      experience: '3+ years',
+      applicants: 15,
+      featured: false
+    },
+    {
+      id: 5,
+      title: 'NFT Platform Developer',
+      company: 'OpenSea',
+      logo: '🌊',
+      location: 'San Francisco, CA',
+      type: 'Full-time',
+      salary: '$130,000 - $170,000',
+      posted: '1 day ago',
+      description: 'Build the world\'s largest NFT marketplace and creator tools',
+      tags: ['JavaScript', 'Node.js', 'NFT', 'Marketplace'],
+      experience: '4+ years',
+      applicants: 67,
+      featured: true
+    },
+    {
+      id: 6,
+      title: 'DeFi Protocol Engineer',
+      company: 'Aave Protocol',
+      logo: '🌊',
+      location: 'Remote',
+      type: 'Full-time',
+      salary: '$145,000 - $195,000',
+      posted: '4 days ago',
+      description: 'Develop lending and borrowing protocols for decentralized finance',
+      tags: ['Solidity', 'DeFi', 'Lending', 'Yield Farming'],
+      experience: '4+ years',
+      applicants: 23,
+      featured: false
     }
   ];
 
+  const filters = [
+    { name: 'All Jobs', count: jobs.length },
+    { name: 'Remote', count: 3 },
+    { name: 'Full-time', count: 5 },
+    { name: 'Contract', count: 1 },
+    { name: 'Featured', count: 3 },
+  ];
+
+  const skills = ['Solidity', 'React', 'TypeScript', 'Web3', 'DeFi', 'Smart Contracts', 'Node.js', 'Ethereum'];
+
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Developer Jobs</h1>
-      <div className="bg-white shadow overflow-hidden sm:rounded-md">
-        <ul className="divide-y divide-gray-200">
-          {jobs.map((job) => (
-            <li key={job.id} className="hover:bg-gray-50">
-              <div className="px-4 py-4 sm:px-6">
-                <div className="flex items-center justify-between">
-                  <p className="text-lg font-medium text-indigo-600 truncate">
-                    {job.title}
-                  </p>
-                  <div className="ml-2 flex-shrink-0 flex">
-                    <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      {job.type}
-                    </p>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-transparent to-purple-600/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 animate-fadeIn">
+              <CodeBracketIcon className="h-4 w-4 mr-2" />
+              Web3 Developer Jobs
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 animate-fadeInUp">
+              <span className="gradient-text">Developer Jobs</span>
+              <br />
+              <span className="text-foreground">in Web3</span>
+            </h1>
+            
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeInUp">
+              Discover high-paying Web3 developer opportunities at leading blockchain companies. 
+              Build the decentralized future with cutting-edge technology.
+            </p>
+            
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto mb-8 animate-fadeInUp">
+              <div className="relative">
+                <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search jobs, companies, or skills..."
+                  className="w-full pl-12 pr-4 py-4 rounded-xl border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                />
+                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 btn-primary px-6 py-2">
+                  Search
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fadeInUp">
+              {filters.map((filter, index) => (
+                <button 
+                  key={filter.name}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                    index === 0 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-secondary text-secondary-foreground hover:bg-accent'
+                  }`}
+                >
+                  {filter.name}
+                  <span className="ml-2 px-2 py-0.5 rounded-full bg-white/20 text-xs">
+                    {filter.count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar Filters */}
+          <div className="lg:w-1/4">
+            <div className="card p-6 sticky top-24">
+              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
+                <FunnelIcon className="h-5 w-5 mr-2" />
+                Filters
+              </h3>
+              
+              <div className="space-y-6">
+                <div>
+                  <h4 className="font-medium text-foreground mb-3">Job Type</h4>
+                  <div className="space-y-2">
+                    {['Full-time', 'Contract', 'Part-time', 'Internship'].map((type) => (
+                      <label key={type} className="flex items-center">
+                        <input type="checkbox" className="rounded border-border" />
+                        <span className="ml-2 text-sm text-muted-foreground">{type}</span>
+                      </label>
+                    ))}
                   </div>
                 </div>
-                <div className="mt-2 sm:flex sm:justify-between">
-                  <div className="sm:flex">
-                    <p className="flex items-center text-sm text-gray-600">
-                      {job.company}
-                    </p>
-                    <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                      {job.location}
-                    </p>
-                  </div>
-                  <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    {job.salary}
+                
+                <div>
+                  <h4 className="font-medium text-foreground mb-3">Experience Level</h4>
+                  <div className="space-y-2">
+                    {['Entry Level', 'Mid Level', 'Senior Level', 'Lead'].map((level) => (
+                      <label key={level} className="flex items-center">
+                        <input type="checkbox" className="rounded border-border" />
+                        <span className="ml-2 text-sm text-muted-foreground">{level}</span>
+                      </label>
+                    ))}
                   </div>
                 </div>
-                <div className="mt-2">
-                  <span className="text-xs text-gray-500">Posted {job.posted}</span>
+                
+                <div>
+                  <h4 className="font-medium text-foreground mb-3">Skills</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {skills.map((skill) => (
+                      <button key={skill} className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground hover:bg-accent transition-colors">
+                        {skill}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </div>
+
+          {/* Jobs List */}
+          <div className="lg:w-3/4">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-foreground">
+                {jobs.length} Web3 Developer Jobs
+              </h2>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-muted-foreground">Sort by:</span>
+                <select className="input py-1">
+                  <option>Most Recent</option>
+                  <option>Salary High to Low</option>
+                  <option>Company Rating</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              {jobs.map((job, index) => (
+                <div key={job.id} className={`card p-6 group hover:shadow-xl transition-all duration-300 animate-fadeInUp ${job.featured ? 'ring-2 ring-primary/20' : ''}`} style={{ animationDelay: `${index * 0.1}s` }}>
+                  {job.featured && (
+                    <div className="flex items-center text-primary text-sm font-medium mb-3">
+                      <SparklesIcon className="h-4 w-4 mr-1" />
+                      Featured Job
+                    </div>
+                  )}
+                  
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center text-2xl">
+                        {job.logo}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                          {job.title}
+                        </h3>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <span className="text-muted-foreground">{job.company}</span>
+                          <span className="text-muted-foreground">•</span>
+                          <span className="text-sm text-muted-foreground">{job.experience}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                        {job.type}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <p className="text-muted-foreground mb-4 leading-relaxed">
+                    {job.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                      <div className="flex items-center space-x-1">
+                        <MapPinIcon className="h-4 w-4" />
+                        <span>{job.location}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <CurrencyDollarIcon className="h-4 w-4" />
+                        <span className="font-medium text-green-600">{job.salary}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <ClockIcon className="h-4 w-4" />
+                        <span>{job.posted}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+                      <BriefcaseIcon className="h-4 w-4" />
+                      <span>{job.applicants} applicants</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-2">
+                      {job.tags.map((tag) => (
+                        <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <button className="btn-primary flex items-center space-x-2 group-hover:scale-105 transition-transform">
+                      <span>Apply Now</span>
+                      <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Load More */}
+            <div className="text-center mt-12">
+              <button className="btn-secondary px-8 py-3 flex items-center space-x-2 mx-auto">
+                <span>Load More Jobs</span>
+                <ArrowRightIcon className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
