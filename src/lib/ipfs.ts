@@ -1,17 +1,5 @@
-import { create } from 'ipfs-http-client';
-
 // IPFS configuration
 const IPFS_GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
-const IPFS_API_URL = 'https://api.pinata.cloud';
-
-// Create IPFS client
-const ipfs = create({
-  url: IPFS_API_URL,
-  headers: {
-    'pinata_api_key': process.env.NEXT_PUBLIC_PINATA_API_KEY || '',
-    'pinata_secret_api_key': process.env.NEXT_PUBLIC_PINATA_SECRET_KEY || '',
-  }
-});
 
 export interface IPFSUploadResult {
   hash: string;
@@ -20,21 +8,44 @@ export interface IPFSUploadResult {
 }
 
 /**
- * Upload file to IPFS using Pinata
+ * Upload file to IPFS using Pinata SDK
  */
 export const uploadToIPFS = async (file: File): Promise<IPFSUploadResult> => {
   try {
-    // Convert file to buffer
-    const buffer = await file.arrayBuffer();
-    const fileBuffer = Buffer.from(buffer);
+    if (typeof window === 'undefined') {
+      throw new Error('IPFS upload can only be used on the client side');
+    }
 
-    // Upload to IPFS
-    const result = await ipfs.add(fileBuffer, {
-      pin: true,
-      progress: (prog) => console.log(`Upload progress: ${prog}`)
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const metadata = JSON.stringify({
+      name: file.name,
     });
 
-    const hash = result.path;
+    formData.append('pinataMetadata', metadata);
+
+    const options = JSON.stringify({
+      cidVersion: 0,
+    });
+
+    formData.append('pinataOptions', options);
+
+    const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+      method: 'POST',
+      headers: {
+        'pinata_api_key': process.env.NEXT_PUBLIC_PINATA_API_KEY || '',
+        'pinata_secret_api_key': process.env.NEXT_PUBLIC_PINATA_SECRET_KEY || '',
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    const hash = result.IpfsHash;
     const url = `${IPFS_GATEWAY}${hash}`;
 
     return {
@@ -49,24 +60,44 @@ export const uploadToIPFS = async (file: File): Promise<IPFSUploadResult> => {
 };
 
 /**
- * Upload JSON data to IPFS
+ * Upload JSON data to IPFS using Pinata SDK
  */
 export const uploadJSONToIPFS = async (data: any): Promise<IPFSUploadResult> => {
   try {
-    const jsonString = JSON.stringify(data);
-    const buffer = Buffer.from(jsonString);
+    if (typeof window === 'undefined') {
+      throw new Error('IPFS upload can only be used on the client side');
+    }
 
-    const result = await ipfs.add(buffer, {
-      pin: true
+    const response = await fetch('https://api.pinata.cloud/pinning/pinJSONToIPFS', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'pinata_api_key': process.env.NEXT_PUBLIC_PINATA_API_KEY || '',
+        'pinata_secret_api_key': process.env.NEXT_PUBLIC_PINATA_SECRET_KEY || '',
+      },
+      body: JSON.stringify({
+        pinataContent: data,
+        pinataMetadata: {
+          name: 'profile-data.json',
+        },
+        pinataOptions: {
+          cidVersion: 0,
+        },
+      }),
     });
 
-    const hash = result.path;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    const hash = result.IpfsHash;
     const url = `${IPFS_GATEWAY}${hash}`;
 
     return {
       hash,
       url,
-      size: buffer.length
+      size: JSON.stringify(data).length
     };
   } catch (error) {
     console.error('Error uploading JSON to IPFS:', error);
@@ -75,16 +106,18 @@ export const uploadJSONToIPFS = async (data: any): Promise<IPFSUploadResult> => 
 };
 
 /**
- * Get file from IPFS
+ * Get file from IPFS via gateway
  */
-export const getFromIPFS = async (hash: string): Promise<any> => {
+export const getFromIPFS = async (hash: string): Promise<ArrayBuffer> => {
   try {
-    const chunks = [];
-    for await (const chunk of ipfs.cat(hash)) {
-      chunks.push(chunk);
+    const url = `${IPFS_GATEWAY}${hash}`;
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = Buffer.concat(chunks);
-    return data;
+    
+    return await response.arrayBuffer();
   } catch (error) {
     console.error('Error getting from IPFS:', error);
     throw new Error('Failed to get file from IPFS');
@@ -97,8 +130,8 @@ export const getFromIPFS = async (hash: string): Promise<any> => {
 export const getJSONFromIPFS = async (hash: string): Promise<any> => {
   try {
     const data = await getFromIPFS(hash);
-    const jsonString = data.toString();
-    return JSON.parse(jsonString);
+    const text = new TextDecoder().decode(data);
+    return JSON.parse(text);
   } catch (error) {
     console.error('Error getting JSON from IPFS:', error);
     throw new Error('Failed to get JSON from IPFS');

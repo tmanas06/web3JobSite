@@ -117,6 +117,12 @@ export default function ProfileManager() {
   const handleImageUpload = async (file: File, type: 'avatar' | 'cover') => {
     if (!file) return;
 
+    // Check if IPFS is configured
+    if (!process.env.NEXT_PUBLIC_PINATA_API_KEY || !process.env.NEXT_PUBLIC_PINATA_SECRET_KEY) {
+      alert('IPFS is not configured. Please set up Pinata API keys in your environment variables.');
+      return;
+    }
+
     setIsUploading(true);
     try {
       const result = await uploadToIPFS(file);
@@ -124,7 +130,7 @@ export default function ProfileManager() {
       handleInputChange(field, result.hash);
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Failed to upload image. Please try again.');
+      alert('Failed to upload image. Please check your Pinata configuration and try again.');
     } finally {
       setIsUploading(false);
     }
