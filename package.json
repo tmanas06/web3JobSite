@@ -64,7 +64,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "hardhat-contract-sizer": "^2.10.0",
-    "hardhat-gas-reporter": "^2.0.1",
+    "hardhat-gas-reporter": "^1.0.10",
     "solidity-coverage": "^0.8.11",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
