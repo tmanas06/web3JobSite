@@ -14,111 +14,14 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function FreelancersPage() {
-  const gigs = [
-    {
-      id: 1,
-      title: 'Web3 dApp Frontend Development',
-      client: 'DeFi Startup',
-      logo: '🚀',
-      budget: '$8,000 - $15,000',
-      posted: '1 day ago',
-      skills: ['React', 'Web3', 'Ethers.js', 'TypeScript'],
-      duration: '2-4 months',
-      level: 'Expert',
-      description: 'Build a modern DeFi interface with Web3 wallet integration and real-time data visualization',
-      applicants: 23,
-      featured: true,
-      remote: true,
-      rating: 4.9
-    },
-    {
-      id: 2,
-      title: 'Smart Contract Development & Audit',
-      client: 'NFT Marketplace',
-      logo: '🎨',
-      budget: '$12,000 - $20,000',
-      posted: '2 days ago',
-      skills: ['Solidity', 'Hardhat', 'Security', 'Testing'],
-      duration: '3-6 months',
-      level: 'Expert',
-      description: 'Develop and audit smart contracts for a new NFT marketplace with advanced trading features',
-      applicants: 18,
-      featured: true,
-      remote: true,
-      rating: 4.8
-    },
-    {
-      id: 3,
-      title: 'Blockchain Integration Specialist',
-      client: 'E-commerce Platform',
-      logo: '🛒',
-      budget: '$5,000 - $10,000',
-      posted: '3 days ago',
-      skills: ['Blockchain', 'API Integration', 'Node.js', 'PostgreSQL'],
-      duration: '2-3 months',
-      level: 'Intermediate',
-      description: 'Integrate blockchain payment solutions and NFT marketplace features into existing e-commerce platform',
-      applicants: 31,
-      featured: false,
-      remote: true,
-      rating: 4.7
-    },
-    {
-      id: 4,
-      title: 'DeFi Protocol UI/UX Design',
-      client: 'Yield Farming Protocol',
-      logo: '🌾',
-      budget: '$6,000 - $12,000',
-      posted: '1 week ago',
-      skills: ['Figma', 'UI/UX', 'Web3 Design', 'Prototyping'],
-      duration: '1-2 months',
-      level: 'Intermediate',
-      description: 'Design intuitive user interfaces for complex DeFi protocols with focus on user experience',
-      applicants: 15,
-      featured: false,
-      remote: true,
-      rating: 4.6
-    },
-    {
-      id: 5,
-      title: 'Cross-chain Bridge Development',
-      client: 'Layer 2 Protocol',
-      logo: '🌉',
-      budget: '$15,000 - $25,000',
-      posted: '4 days ago',
-      skills: ['Rust', 'Substrate', 'Cross-chain', 'Cryptography'],
-      duration: '4-6 months',
-      level: 'Expert',
-      description: 'Develop a secure cross-chain bridge for asset transfers between different blockchain networks',
-      applicants: 8,
-      featured: true,
-      remote: true,
-      rating: 4.9
-    },
-    {
-      id: 6,
-      title: 'Web3 Marketing & Community Manager',
-      client: 'DAO Organization',
-      logo: '🏛️',
-      budget: '$3,000 - $6,000',
-      posted: '5 days ago',
-      skills: ['Marketing', 'Community Management', 'Discord', 'Twitter'],
-      duration: '3-6 months',
-      level: 'Intermediate',
-      description: 'Manage community growth and marketing strategies for a decentralized autonomous organization',
-      applicants: 42,
-      featured: false,
-      remote: true,
-      rating: 4.5
-    }
-  ];
+  const gigs: any[] = []; // Empty array - will be populated from smart contracts
 
   const filters = [
     { name: 'All Gigs', count: gigs.length },
-    { name: 'Remote', count: gigs.length },
-    { name: 'Expert', count: 3 },
-    { name: 'Featured', count: 3 },
-    { name: 'High Budget', count: 4 },
+    { name: 'Remote', count: 0 },
+    { name: 'Expert', count: 0 },
+    { name: 'Featured', count: 0 },
+    { name: 'High Budget', count: 0 },
   ];
 
   const categories = ['Development', 'Design', 'Marketing', 'Blockchain', 'DeFi', 'NFT', 'Smart Contracts', 'Web3'];
@@ -131,17 +34,17 @@ export default function FreelancersPage() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 animate-fadeIn">
               <BriefcaseIcon className="h-4 w-4 mr-2" />
-              Web3 Freelance Opportunities
+              Freelance Gigs
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 animate-fadeInUp">
-              <span className="gradient-text">Freelance Gigs</span>
+              <span className="gradient-text">Freelance Projects</span>
               <br />
               <span className="text-foreground">in Web3</span>
             </h1>
             
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed animate-fadeInUp">
-              Find high-paying freelance opportunities in Web3, DeFi, and blockchain development. 
+              Find exciting freelance opportunities in the Web3 space. 
               Work with innovative projects and build your decentralized career.
             </p>
             
@@ -195,7 +98,7 @@ export default function FreelancersPage() {
                 <div>
                   <h4 className="font-medium text-foreground mb-3">Budget Range</h4>
                   <div className="space-y-2">
-                    {['$1K - $5K', '$5K - $10K', '$10K - $20K', '$20K+'].map((range) => (
+                    {['$0 - $1,000', '$1,000 - $5,000', '$5,000 - $10,000', '$10,000+'].map((range) => (
                       <label key={range} className="flex items-center">
                         <input type="checkbox" className="rounded border-border" />
                         <span className="ml-2 text-sm text-muted-foreground">{range}</span>
@@ -207,7 +110,7 @@ export default function FreelancersPage() {
                 <div>
                   <h4 className="font-medium text-foreground mb-3">Experience Level</h4>
                   <div className="space-y-2">
-                    {['Entry Level', 'Intermediate', 'Expert', 'Guru'].map((level) => (
+                    {['Entry Level', 'Intermediate', 'Expert'].map((level) => (
                       <label key={level} className="flex items-center">
                         <input type="checkbox" className="rounded border-border" />
                         <span className="ml-2 text-sm text-muted-foreground">{level}</span>
@@ -234,7 +137,7 @@ export default function FreelancersPage() {
           <div className="lg:w-3/4">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-foreground">
-                {gigs.length} Web3 Freelance Gigs
+                {gigs.length} Freelance Gigs
               </h2>
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-muted-foreground">Sort by:</span>
@@ -246,123 +149,111 @@ export default function FreelancersPage() {
               </div>
             </div>
             
-            <div className="space-y-6">
-              {gigs.map((gig, index) => (
-                <div key={gig.id} className={`card p-6 group hover:shadow-xl transition-all duration-300 animate-fadeInUp ${gig.featured ? 'ring-2 ring-primary/20' : ''}`} style={{ animationDelay: `${index * 0.1}s` }}>
-                  {gig.featured && (
-                    <div className="flex items-center text-primary text-sm font-medium mb-4">
-                      <SparklesIcon className="h-4 w-4 mr-1" />
-                      Featured Gig
-                    </div>
-                  )}
-                  
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center text-2xl">
-                        {gig.logo}
+            {gigs.length === 0 ? (
+              <div className="text-center py-12">
+                <RocketLaunchIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-foreground mb-2">No Gigs Available</h3>
+                <p className="text-muted-foreground mb-6">
+                  Freelance gigs will appear here once clients post them on the platform.
+                </p>
+                <button className="btn-primary">
+                  Post a Gig
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {gigs.map((gig, index) => (
+                  <div key={gig.id} className={`card p-6 group hover:shadow-xl transition-all duration-300 animate-fadeInUp ${gig.featured ? 'ring-2 ring-primary/20' : ''}`} style={{ animationDelay: `${index * 0.1}s` }}>
+                    {gig.featured && (
+                      <div className="flex items-center text-primary text-sm font-medium mb-3">
+                        <SparklesIcon className="h-4 w-4 mr-1" />
+                        Featured Gig
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {gig.title}
-                        </h3>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <span className="text-muted-foreground">{gig.client}</span>
-                          <span className="text-muted-foreground">•</span>
-                          <span className="text-sm text-muted-foreground">{gig.level}</span>
-                          {gig.remote && (
-                            <>
-                              <span className="text-muted-foreground">•</span>
-                              <span className="flex items-center text-sm text-green-600">
-                                <GlobeAltIcon className="h-3 w-3 mr-1" />
-                                Remote
-                              </span>
-                            </>
-                          )}
+                    )}
+                    
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center text-2xl">
+                          {gig.logo}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                            {gig.title}
+                          </h3>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <span className="text-muted-foreground">{gig.client}</span>
+                            <span className="text-muted-foreground">•</span>
+                            <span className="text-sm text-muted-foreground">{gig.level}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-primary mb-1">{gig.budget}</div>
-                      <div className="text-sm text-muted-foreground">budget</div>
-                    </div>
-                  </div>
-                  
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {gig.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                      <div className="flex items-center space-x-1">
-                        <CalendarIcon className="h-4 w-4" />
-                        <span>{gig.duration}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <ClockIcon className="h-4 w-4" />
-                        <span>Posted {gig.posted}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <UserIcon className="h-4 w-4" />
-                        <span>{gig.applicants} proposals</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm font-medium text-foreground">{gig.rating}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-2">
-                      {gig.skills.map((skill) => (
-                        <span key={skill} className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
-                          {skill}
+                      <div className="flex items-center space-x-2">
+                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                          {gig.duration}
                         </span>
-                      ))}
+                        {gig.remote && (
+                          <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                            Remote
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <button className="btn-primary flex items-center space-x-2 group-hover:scale-105 transition-transform">
-                      <span>Submit Proposal</span>
-                      <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {gig.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                        <div className="flex items-center space-x-1">
+                          <CurrencyDollarIcon className="h-4 w-4" />
+                          <span className="font-medium text-green-600">{gig.budget}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <ClockIcon className="h-4 w-4" />
+                          <span>{gig.posted}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <UserIcon className="h-4 w-4" />
+                          <span>{gig.applicants} applicants</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+                        <StarIcon className="h-4 w-4 text-yellow-400" />
+                        <span>{gig.rating}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap gap-2">
+                        {gig.skills.map((skill: string) => (
+                          <span key={skill} className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                      <button className="btn-primary flex items-center space-x-2 group-hover:scale-105 transition-transform">
+                        <span>Apply Now</span>
+                        <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             
             {/* Load More */}
-            <div className="text-center mt-12">
-              <button className="btn-secondary px-8 py-3 flex items-center space-x-2 mx-auto">
-                <span>Load More Gigs</span>
-                <ArrowRightIcon className="h-5 w-5" />
-              </button>
-            </div>
+            {gigs.length > 0 && (
+              <div className="text-center mt-12">
+                <button className="btn-secondary px-8 py-3 flex items-center space-x-2 mx-auto">
+                  <span>Load More Gigs</span>
+                  <ArrowRightIcon className="h-5 w-5" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8">
-            <RocketLaunchIcon className="h-4 w-4 mr-2" />
-            Ready to Start Freelancing?
-          </div>
-          
-          <h2 className="text-4xl font-bold text-foreground mb-6">
-            Launch Your Web3 Freelance Career
-          </h2>
-          
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of freelancers already building the decentralized future. 
-            Create your profile and start earning in crypto.
-          </p>
-          
-          <button className="btn-primary text-lg px-8 py-4 flex items-center space-x-2 mx-auto">
-            <span>Create Profile</span>
-            <ArrowRightIcon className="h-5 w-5" />
-          </button>
-        </div>
-      </section>
     </div>
   );
 }

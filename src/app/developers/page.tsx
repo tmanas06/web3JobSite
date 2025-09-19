@@ -13,105 +13,14 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function DevelopersPage() {
-  const jobs = [
-    {
-      id: 1,
-      title: 'Senior Solidity Developer',
-      company: 'Ethereum Foundation',
-      logo: '🟣',
-      location: 'Remote',
-      type: 'Full-time',
-      salary: '$150,000 - $200,000',
-      posted: '2 days ago',
-      description: 'Build cutting-edge smart contracts and DeFi protocols on Ethereum',
-      tags: ['Solidity', 'DeFi', 'Smart Contracts', 'Web3'],
-      experience: '5+ years',
-      applicants: 45,
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Frontend Engineer - React/Web3',
-      company: 'Uniswap Labs',
-      logo: '🦄',
-      location: 'New York, NY',
-      type: 'Full-time',
-      salary: '$140,000 - $180,000',
-      posted: '1 week ago',
-      description: 'Develop the next generation of decentralized trading interfaces',
-      tags: ['React', 'TypeScript', 'Web3', 'DeFi'],
-      experience: '3+ years',
-      applicants: 32,
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Blockchain Infrastructure Engineer',
-      company: 'Polygon',
-      logo: '🔷',
-      location: 'Global Remote',
-      type: 'Full-time',
-      salary: '$160,000 - $220,000',
-      posted: '3 days ago',
-      description: 'Scale Ethereum with Layer 2 solutions and sidechain technology',
-      tags: ['Go', 'Blockchain', 'Infrastructure', 'Layer 2'],
-      experience: '4+ years',
-      applicants: 28,
-      featured: false
-    },
-    {
-      id: 4,
-      title: 'Smart Contract Auditor',
-      company: 'Chainlink Labs',
-      logo: '🔗',
-      location: 'San Francisco, CA',
-      type: 'Contract',
-      salary: '$100 - $150/hr',
-      posted: '5 days ago',
-      description: 'Audit smart contracts for security vulnerabilities and best practices',
-      tags: ['Security', 'Solidity', 'Auditing', 'DeFi'],
-      experience: '3+ years',
-      applicants: 15,
-      featured: false
-    },
-    {
-      id: 5,
-      title: 'NFT Platform Developer',
-      company: 'OpenSea',
-      logo: '🌊',
-      location: 'San Francisco, CA',
-      type: 'Full-time',
-      salary: '$130,000 - $170,000',
-      posted: '1 day ago',
-      description: 'Build the world\'s largest NFT marketplace and creator tools',
-      tags: ['JavaScript', 'Node.js', 'NFT', 'Marketplace'],
-      experience: '4+ years',
-      applicants: 67,
-      featured: true
-    },
-    {
-      id: 6,
-      title: 'DeFi Protocol Engineer',
-      company: 'Aave Protocol',
-      logo: '🌊',
-      location: 'Remote',
-      type: 'Full-time',
-      salary: '$145,000 - $195,000',
-      posted: '4 days ago',
-      description: 'Develop lending and borrowing protocols for decentralized finance',
-      tags: ['Solidity', 'DeFi', 'Lending', 'Yield Farming'],
-      experience: '4+ years',
-      applicants: 23,
-      featured: false
-    }
-  ];
+  const jobs: any[] = []; // Empty array - will be populated from smart contracts
 
   const filters = [
     { name: 'All Jobs', count: jobs.length },
-    { name: 'Remote', count: 3 },
-    { name: 'Full-time', count: 5 },
-    { name: 'Contract', count: 1 },
-    { name: 'Featured', count: 3 },
+    { name: 'Remote', count: 0 },
+    { name: 'Full-time', count: 0 },
+    { name: 'Contract', count: 0 },
+    { name: 'Featured', count: 0 },
   ];
 
   const skills = ['Solidity', 'React', 'TypeScript', 'Web3', 'DeFi', 'Smart Contracts', 'Node.js', 'Ethereum'];
@@ -239,88 +148,103 @@ export default function DevelopersPage() {
               </div>
             </div>
             
-            <div className="space-y-6">
-              {jobs.map((job, index) => (
-                <div key={job.id} className={`card p-6 group hover:shadow-xl transition-all duration-300 animate-fadeInUp ${job.featured ? 'ring-2 ring-primary/20' : ''}`} style={{ animationDelay: `${index * 0.1}s` }}>
-                  {job.featured && (
-                    <div className="flex items-center text-primary text-sm font-medium mb-3">
-                      <SparklesIcon className="h-4 w-4 mr-1" />
-                      Featured Job
-                    </div>
-                  )}
-                  
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center text-2xl">
-                        {job.logo}
+            {jobs.length === 0 ? (
+              <div className="text-center py-12">
+                <BriefcaseIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-foreground mb-2">No Jobs Available</h3>
+                <p className="text-muted-foreground mb-6">
+                  Jobs will appear here once companies post them on the platform.
+                </p>
+                <button className="btn-primary">
+                  Post a Job
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {jobs.map((job, index) => (
+                  <div key={job.id} className={`card p-6 group hover:shadow-xl transition-all duration-300 animate-fadeInUp ${job.featured ? 'ring-2 ring-primary/20' : ''}`} style={{ animationDelay: `${index * 0.1}s` }}>
+                    {job.featured && (
+                      <div className="flex items-center text-primary text-sm font-medium mb-3">
+                        <SparklesIcon className="h-4 w-4 mr-1" />
+                        Featured Job
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {job.title}
-                        </h3>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <span className="text-muted-foreground">{job.company}</span>
-                          <span className="text-muted-foreground">•</span>
-                          <span className="text-sm text-muted-foreground">{job.experience}</span>
+                    )}
+                    
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center text-2xl">
+                          {job.logo}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                            {job.title}
+                          </h3>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <span className="text-muted-foreground">{job.company}</span>
+                            <span className="text-muted-foreground">•</span>
+                            <span className="text-sm text-muted-foreground">{job.experience}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
-                        {job.type}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {job.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                      <div className="flex items-center space-x-1">
-                        <MapPinIcon className="h-4 w-4" />
-                        <span>{job.location}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <CurrencyDollarIcon className="h-4 w-4" />
-                        <span className="font-medium text-green-600">{job.salary}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <ClockIcon className="h-4 w-4" />
-                        <span>{job.posted}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-                      <BriefcaseIcon className="h-4 w-4" />
-                      <span>{job.applicants} applicants</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-2">
-                      {job.tags.map((tag) => (
-                        <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
-                          {tag}
+                      <div className="flex items-center space-x-2">
+                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                          {job.type}
                         </span>
-                      ))}
+                      </div>
                     </div>
-                    <button className="btn-primary flex items-center space-x-2 group-hover:scale-105 transition-transform">
-                      <span>Apply Now</span>
-                      <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {job.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                        <div className="flex items-center space-x-1">
+                          <MapPinIcon className="h-4 w-4" />
+                          <span>{job.location}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <CurrencyDollarIcon className="h-4 w-4" />
+                          <span className="font-medium text-green-600">{job.salary}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <ClockIcon className="h-4 w-4" />
+                          <span>{job.posted}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+                        <BriefcaseIcon className="h-4 w-4" />
+                        <span>{job.applicants} applicants</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap gap-2">
+                        {job.tags.map((tag: string) => (
+                          <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <button className="btn-primary flex items-center space-x-2 group-hover:scale-105 transition-transform">
+                        <span>Apply Now</span>
+                        <ArrowRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             
             {/* Load More */}
-            <div className="text-center mt-12">
-              <button className="btn-secondary px-8 py-3 flex items-center space-x-2 mx-auto">
-                <span>Load More Jobs</span>
-                <ArrowRightIcon className="h-5 w-5" />
-              </button>
-            </div>
+            {jobs.length > 0 && (
+              <div className="text-center mt-12">
+                <button className="btn-secondary px-8 py-3 flex items-center space-x-2 mx-auto">
+                  <span>Load More Jobs</span>
+                  <ArrowRightIcon className="h-5 w-5" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,0 +1,163 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 2 * * 1' # Weekly on Monday at 2 AM UTC
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run npm audit
+      run: npm audit --audit-level moderate
+    
+    - name: Run Slither analysis
+      uses: crytic/slither-action@v0.15.0
+      with:
+        target: 'contracts/'
+        args: '--exclude-dependencies --exclude-informational --exclude-low'
+    
+    - name: Run Mythril analysis
+      uses: ConsenSys/mythril-action@v0.1.0
+      with:
+        target: 'contracts/'
+        args: '--execution-timeout 300'
+    
+    - name: Run Semgrep analysis
+      uses: returntocorp/semgrep-action@v1
+      with:
+        config: >-
+          p/security-audit
+          p/secrets
+          p/owasp-top-ten
+        generateSarif: "1"
+    
+    - name: Upload security reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-reports
+        path: |
+          slither-report.txt
+          mythril-report.txt
+          semgrep-report.sarif
+        retention-days: 30
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run dependency check
+      run: |
+        npm audit --audit-level moderate
+        npm outdated
+        npx audit-ci --moderate
+    
+    - name: Check for known vulnerabilities
+      run: |
+        npx snyk test --severity-threshold=medium
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  contract-security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Compile contracts
+      run: npm run compile
+    
+    - name: Run Slither analysis
+      uses: crytic/slither-action@v0.15.0
+      with:
+        target: 'contracts/'
+        args: '--exclude-dependencies --exclude-informational --exclude-low --json slither-report.json'
+    
+    - name: Run Mythril analysis
+      uses: ConsenSys/mythril-action@v0.1.0
+      with:
+        target: 'contracts/'
+        args: '--execution-timeout 300 --output json'
+    
+    - name: Run Echidna fuzzing
+      uses: crytic/echidna-action@v0.1.0
+      with:
+        target: 'contracts/'
+        args: '--test-mode property'
+    
+    - name: Upload security reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: contract-security-reports
+        path: |
+          slither-report.json
+          mythril-report.json
+          echidna-report.txt
+        retention-days: 30
+
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Check licenses
+      run: |
+        npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense'
+    
+    - name: Generate license report
+      run: |
+        npx license-checker --json > license-report.json
+        npx license-checker --csv > license-report.csv
+    
+    - name: Upload license reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: license-reports
+        path: |
+          license-report.json
+          license-report.csv
+        retention-days: 30

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAccount, useConnect, useDisconnect, useReadContract, useWriteContract } from 'wagmi';
-import { CONTRACT_ADDRESSES, getYellowJobTokenConfig, getWeb3JobPlatformConfig, getFraudDetectionConfig } from '@/lib/web3';
+import { CONTRACT_ADDRESSES, getTestnetTokenConfig, getYellowJobTokenConfig, getWeb3JobPlatformConfig, getFraudDetectionConfig, getUserProfileConfig } from '@/lib/web3';
 
 interface Web3ContextType {
   // Connection state
@@ -18,6 +18,7 @@ interface Web3ContextType {
   
   // Contract data
   tokenBalance: bigint | null;
+  testnetTokenBalance: bigint | null;
   stakedAmount: bigint | null;
   reputation: number | null;
   
@@ -28,6 +29,12 @@ interface Web3ContextType {
   postJob: (data: JobData) => Promise<void>;
   applyForJob: (jobId: number, data: ApplicationData) => Promise<void>;
   reportFraud: (data: FraudReportData) => Promise<void>;
+  
+  // Profile management
+  createProfile: (data: ProfileData) => Promise<void>;
+  updateProfile: (data: ProfileData) => Promise<void>;
+  updateAvatar: (avatarHash: string) => Promise<void>;
+  updateCover: (coverHash: string) => Promise<void>;
   
   // Loading states
   isLoading: boolean;
@@ -81,6 +88,22 @@ interface FraudReportData {
   evidence: string;
 }
 
+interface ProfileData {
+  name: string;
+  email: string;
+  bio: string;
+  avatarHash: string;
+  coverHash: string;
+  socialLinks: string[];
+  skills: string[];
+  skillScores: number[];
+  location: string;
+  website: string;
+  github: string;
+  linkedin: string;
+  twitter: string;
+}
+
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
 export const useWeb3 = () => {
@@ -104,8 +127,15 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Read token balance
-  const { data: tokenBalance } = useReadContract({
+  // Read testnet token balance (for staking)
+  const { data: testnetTokenBalance } = useReadContract({
+    ...getTestnetTokenConfig(),
+    functionName: 'balanceOf',
+    args: address ? [address] : undefined,
+  });
+
+  // Read YJT token balance
+  const { data: yjtTokenBalance } = useReadContract({
     ...getYellowJobTokenConfig(),
     functionName: 'balanceOf',
     args: address ? [address] : undefined,
@@ -226,9 +256,9 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
     
     try {
-      // First approve tokens
+      // First approve testnet tokens for staking
       await writeContractAsync({
-        ...getYellowJobTokenConfig(),
+        ...getTestnetTokenConfig(),
         functionName: 'approve',
         args: [CONTRACT_ADDRESSES.Web3JobPlatform, BigInt(amount)],
       });
@@ -342,6 +372,114 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     disconnect();
   };
 
+  const createProfile = async (data: ProfileData) => {
+    if (!address) throw new Error('Wallet not connected');
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      await writeContractAsync({
+        ...getUserProfileConfig(),
+        functionName: 'createProfile',
+        args: [
+          data.name,
+          data.email,
+          data.bio,
+          data.avatarHash,
+          data.coverHash,
+          data.socialLinks,
+          data.skills,
+          data.skillScores,
+          data.location,
+          data.website,
+          data.github,
+          data.linkedin,
+          data.twitter,
+        ],
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create profile');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateProfile = async (data: ProfileData) => {
+    if (!address) throw new Error('Wallet not connected');
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      await writeContractAsync({
+        ...getUserProfileConfig(),
+        functionName: 'updateProfile',
+        args: [
+          data.name,
+          data.email,
+          data.bio,
+          data.avatarHash,
+          data.coverHash,
+          data.socialLinks,
+          data.skills,
+          data.skillScores,
+          data.location,
+          data.website,
+          data.github,
+          data.linkedin,
+          data.twitter,
+        ],
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update profile');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateAvatar = async (avatarHash: string) => {
+    if (!address) throw new Error('Wallet not connected');
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      await writeContractAsync({
+        ...getUserProfileConfig(),
+        functionName: 'updateAvatar',
+        args: [avatarHash],
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update avatar');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateCover = async (coverHash: string) => {
+    if (!address) throw new Error('Wallet not connected');
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      await writeContractAsync({
+        ...getUserProfileConfig(),
+        functionName: 'updateCover',
+        args: [coverHash],
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update cover');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const refreshData = () => {
     // Force refresh of contract data
     window.location.reload();
@@ -360,7 +498,8 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     developerId,
     
     // Contract data
-    tokenBalance: tokenBalance || null,
+    tokenBalance: yjtTokenBalance || null,
+    testnetTokenBalance: testnetTokenBalance || null,
     stakedAmount: companyData ? companyData.stakedAmount : null,
     reputation: reputationData ? Number(reputationData) : null,
     
@@ -371,6 +510,12 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     postJob,
     applyForJob,
     reportFraud,
+    
+    // Profile management
+    createProfile,
+    updateProfile,
+    updateAvatar,
+    updateCover,
     
     // Loading states
     isLoading,

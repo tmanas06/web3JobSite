@@ -16,10 +16,10 @@ import {
 
 export default function Home() {
   const stats = [
-    { label: 'Active Jobs', value: '2,500+', icon: BriefcaseIcon },
-    { label: 'Companies', value: '850+', icon: BuildingOfficeIcon },
-    { label: 'Developers', value: '15,000+', icon: CodeBracketIcon },
-    { label: 'Success Stories', value: '98%', icon: CheckCircleIcon },
+    { label: 'Active Jobs', value: '0', icon: BriefcaseIcon },
+    { label: 'Companies', value: '0', icon: BuildingOfficeIcon },
+    { label: 'Developers', value: '0', icon: CodeBracketIcon },
+    { label: 'Success Stories', value: '0%', icon: CheckCircleIcon },
   ];
 
   const features = [
